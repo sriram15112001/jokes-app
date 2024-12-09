@@ -2,12 +2,11 @@ package com.deepak.JokesApp.controller;
 
 import com.deepak.JokesApp.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 
-@RestController
+@Controller
 public class JokeController {
 
     private final JokeService jokeService;
@@ -17,9 +16,10 @@ public class JokeController {
         this.jokeService = jokeService;
     }
 
-    @GetMapping("/joke")
-    public ResponseEntity<String> getJoke(){
+    @RequestMapping("/joke")
+    public String getJoke(Model model){
         String joke = jokeService.getJoke();
-        return new ResponseEntity<>(joke, HttpStatusCode.valueOf(200));
+        model.addAttribute("joke", joke);
+        return "index";
     }
 }
